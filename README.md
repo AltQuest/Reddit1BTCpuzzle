@@ -1,4 +1,6 @@
 # Reddit1BTCpuzzle
+
+**WARNING** **right now app creates endless 12 word phrases from leftover word list. i got 11GB before i deleted and am trying something else...**
 this is what i have so far to try to solve the 1 btc puzzle on reddit https://www.reddit.com/r/Bitcoin/comments/8kk0pa/1_btc_is_hidden_in_this_puzzle_good_luck/
 
 link to reward address: https://blockchain.info/address/37XTVuaWt1zyUPRgDDpsnoo5ioHk2Da6Fs
