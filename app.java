@@ -111,19 +111,20 @@ public class app
 
 	writer = new PrintWriter("final12wordlist.txt", "UTF-8");
 
-	for(int x=0;x<=finishedlist.size()-12;x++){
-	 for(int y=0;y<=finishedlist.size()-11;y++){
-	  for(int looper1=0;looper1<=finishedlist.size()-10;looper1++){
-           for(int looper2=0;looper2<=finishedlist.size()-9;looper2++){
-            for(int looper3=0;looper3<=finishedlist.size()-8;looper3++){
-             for(int looper4=0;looper4<=finishedlist.size()-7;looper4++){
-              for(int looper5=0;looper5<=finishedlist.size()-6;looper5++){
-	       for(int looper6=0;looper6<=finishedlist.size()-5;looper6++){
-		for(int looper7=0;looper7<=finishedlist.size()-4;looper7++){
-		 for(int looper8=0;looper8<=finishedlist.size()-3;looper8++){
-         	  for(int looper9=0;looper9<=finishedlist.size()-2;looper9++){
+	for(int x=0;x<finishedlist.size();x++){
+	 for(int y=0;y<finishedlist.size();y++){
+	  for(int looper1=0;looper1<finishedlist.size();looper1++){
+           for(int looper2=0;looper2<finishedlist.size();looper2++){
+            for(int looper3=0;looper3<finishedlist.size();looper3++){
+             for(int looper4=0;looper4<finishedlist.size();looper4++){
+              for(int looper5=0;looper5<finishedlist.size();looper5++){
+	       for(int looper6=0;looper6<finishedlist.size();looper6++){
+		for(int looper7=0;looper7<finishedlist.size();looper7++){
+		 for(int looper8=0;looper8<finishedlist.size();looper8++){
+         	  for(int looper9=0;looper9<finishedlist.size();looper9++){
                    for(int looper10=0;looper10<finishedlist.size();looper10++){
 		
+			if((x<finishedlist.size()-1)&&(y<finishedlist.size()-1)&&(looper1<finishedlist.size()-1)&&(looper2<finishedlist.size()-1)&&(looper3<finishedlist.size()-1)&&(looper4<finishedlist.size()-1)&&(looper5<finishedlist.size()-1)&&(looper6<finishedlist.size()-1)&&(looper7<finishedlist.size()-1)&&(looper8<finishedlist.size()-1)&&(looper9<finishedlist.size()-1)&&(looper10<finishedlist.size()-1)){
 			if (finishedlist.get(x).equals(finishedlist.get(y))){y++;}
 			if (finishedlist.get(y).equals(finishedlist.get(looper1))){looper1++;}
 			if (finishedlist.get(looper1).equals(finishedlist.get(looper2))){looper2++;}
@@ -200,7 +201,7 @@ public class app
 			if(finishedlist.get(looper7).equals(finishedlist.get(looper10))){looper10++;}
 
 			if(finishedlist.get(looper8).equals(finishedlist.get(looper10))){looper10++;}
-
+		}//endifs
 
 	Thread.sleep(sleeper/1);
 
