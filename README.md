@@ -6,3 +6,16 @@ balance(6/1/2018): 1.00194132 BTC
 
 Donations:
 Bitcoin/BTC: 1QDaqWpd9nZ3D9Ycn8BjjjuuYPANAg8apz
+
+Bitcoin Cash/BCC: 13qahfu28V4Dt6FKb62RpBF2nTGdP9KAxE
+
+LiteCoin/LTC: LZP7JFDmrwMMLjMYQLqSjdCh5bKabYBZPe
+
+DASH/DASH: Xr3TZYgJNaVoaErMN9sci9o9TV2vUodByB
+
+Ethereum/ETH, OmiseGo/OMG, SALT/SALT, Golem/GNT, Gnosis/GNO, FunFair/FUN, EOS/EOS, District0x/DNT, Civic/CVC, BasicAttentionToken/BAT, Augur/REP, Aragon/ANT: 0x511c215dE210D22a9a9ED5758Ca40CFE7831aA8f
+
+Ethereum Classic/ETC: 0x7942Fa9cD5a0e5D6b79C5Ac61CF4ba15e1792482
+
+Decred/DCR: DsgdNLxuHLW8e73NxPVLH8KKsEzjmJ9A6up
+CryptoKitties can be sent here: 0x1e5768FEBaa9194B960613DAe8264A7F423F66Dd
