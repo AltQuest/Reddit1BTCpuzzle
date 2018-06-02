@@ -91,6 +91,24 @@ public class app
 	}
 	writer.close();
 
+	//run leftover words against WhitePaper
+	if(WP()==true){ System.out.println("WhitePaper Scanned");}
+	  Scanner wordscan = null;
+	finishedlist = new ArrayList<String>();
+    try {
+        wordscan = new Scanner(new File("dictionary2.txt"));
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();  
+    }
+    while (wordscan.hasNextLine()) {
+            Scanner scaner1 = new Scanner(wordscan.nextLine());
+        while (scaner1.hasNext()) {
+	    wordscount++;
+            String str1 = scaner1.next();
+	    finishedlist.add(str1);
+        }
+    }
+
 	//print compared words leftover
 	int fcount=0;
 	for(int z=0;z<finishedlist.size();z++){
@@ -254,6 +272,107 @@ public class app
 	*/
 
 	System.out.println("Done. @BitcoinJake09");
+	}
+
+	public static boolean WP() throws IOException, InterruptedException {
+	int sleeper=(int)(0 * 1000);//if 0 will compute instant. otherwise set sleeper time in milsec
+
+	       System.out.println("scanning from dictionary.txt");
+	Thread.sleep(sleeper);
+
+	int wordscount = 0;
+        Scanner sc1 = null;
+	List<String> wordslist = new ArrayList<String>();
+    try {
+        sc1 = new Scanner(new File("dictionary.txt"));
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();  
+    }
+    while (sc1.hasNextLine()) {
+            Scanner s1 = new Scanner(sc1.nextLine());
+        while (s1.hasNext()) {
+	    wordscount++;
+            String str1 = s1.next();
+	    wordslist.add(str1);
+        }
+    }
+
+        System.out.println("printing from wordslist array");
+	Thread.sleep(sleeper);
+
+	
+        wordscount=0;	
+		
+	for(int i=0;i<wordslist.size();i++){
+        wordscount++;
+        Thread.sleep(sleeper/500);
+    	System.out.println(wordscount+") "+wordslist.get(i));
+	}
+// end of words.txt
+
+        System.out.println("scanning from WhitePaper");
+	Thread.sleep(sleeper);
+
+	int BIPwordscount = 0;
+        Scanner sc2 = null;
+	List<String> BIPwordslist = new ArrayList<String>();
+    try {
+        sc2 = new Scanner(new File("WP.txt"));
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();  
+    }
+    while (sc2.hasNextLine()) {
+            Scanner s2 = new Scanner(sc2.nextLine());
+        while (s2.hasNext()) {
+	    BIPwordscount++;
+            String str2 = s2.next();
+	    BIPwordslist.add(str2);
+        }
+    }	
+        System.out.println("printing from WhitePaper");
+	Thread.sleep(sleeper);
+        BIPwordscount=0;	
+		
+	for(int j=0;j<BIPwordslist.size();j++){
+        BIPwordscount++;
+        Thread.sleep(sleeper/500);
+    	System.out.println(BIPwordscount+") "+BIPwordslist.get(j));
+	}
+	//end of BIPwordlist
+
+	//start comparing words
+	File CompleteWordList = new File("dictionary2.txt");
+	if (CompleteWordList.exists()){ CompleteWordList.delete(); }
+
+	PrintWriter writer = new PrintWriter("dictionary2.txt", "UTF-8");
+	List<String> finishedlist = new ArrayList<String>();
+	for(int x=0;x<wordslist.size();x++){
+	 for(int y=0;y<BIPwordslist.size();y++){
+	  if (BIPwordslist.get(y).equals(wordslist.get(x))) {	        
+    	   System.out.println("in WhitePaper list: "+wordslist.get(x));
+           finishedlist.add(wordslist.get(x));
+	   }
+	  }	
+	}
+
+	List<String> finallist = new ArrayList<String>();
+	for(int x=1;x<finishedlist.size();x++){
+	  if (!finishedlist.get(x).equals(finishedlist.get(x-1))) {	        
+    	   System.out.println("in WP list: "+finishedlist.get(x));
+           writer.println(finishedlist.get(x));           
+	   finallist.add(finishedlist.get(x));
+
+	   }	
+	}
+	writer.close();
+	//print compared words leftover
+	int fcount=0;
+	for(int z=0;z<finishedlist.size();z++){
+         fcount++;
+         Thread.sleep(sleeper/500);
+    	 System.out.println(fcount+") "+finishedlist.get(z));
+	}
+	return true;
 	}
 }
 
