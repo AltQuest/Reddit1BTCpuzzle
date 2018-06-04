@@ -3,12 +3,14 @@
 
 import java.io.*;
 import java.util.*;
+import javax.script.*;
 
 public class app
 {
+	public static int sleeper=(int)(0 * 1000);//if 0 will compute instant. otherwise set sleeper time in milsec
 	public static void main(String[] args) throws IOException, InterruptedException{
 
-	int sleeper=(int)(0 * 1000);//if 0 will compute instant. otherwise set sleeper time in milsec
+
 	    // // read KeyWestTemp.txt
 
         System.out.println("scanning from words.txt");
@@ -124,10 +126,10 @@ public class app
 	String tempString="";
 	List<String> final12wordlist = new ArrayList<String>();
 		//print 12 words??
-	File f12 = new File("final12wordlist.txt");
-	if (f12.exists()){ f12.delete(); }
+	//File f12 = new File("final12wordlist.txt");
+	//if (f12.exists()){ f12.delete(); }
 
-	writer = new PrintWriter("final12wordlist.txt", "UTF-8");
+	//writer = new PrintWriter("final12wordlist.txt", "UTF-8");
 
 	for(int x=0;x<finishedlist.size();x++){
 	 for(int y=0;y<finishedlist.size();y++){
@@ -233,13 +235,15 @@ public class app
 			tempString=finishedlist.get(x)+" "+finishedlist.get(y)+" "+finishedlist.get(looper1)+" "+finishedlist.get(looper2)+" "+finishedlist.get(looper3)+" "+finishedlist.get(looper4)+" "+finishedlist.get(looper5)+" "+finishedlist.get(looper6)+" "+finishedlist.get(looper7)+" "+finishedlist.get(looper8)+" "+finishedlist.get(looper9)+" "+finishedlist.get(looper10);
 			   //final12wordlist.add(tempString);
 			System.out.println(tempString);
-			writer.println(tempString);
+			try { DoJS(tempString); } catch (Exception e) { e.printStackTrace(); }
+			
+			//writer.println(tempString);
 			//} //end if
 
 	  }}}}}}}}}}}} //end all loopdedoops
 
 
-	writer.close();
+	//writer.close();
 /*
 	Thread.sleep(sleeper/1);
 	//remove doubles??
@@ -275,7 +279,7 @@ public class app
 	}
 
 	public static boolean WP() throws IOException, InterruptedException {
-	int sleeper=(int)(0 * 1000);//if 0 will compute instant. otherwise set sleeper time in milsec
+
 
 	       System.out.println("scanning from dictionary.txt");
 	Thread.sleep(sleeper);
@@ -374,5 +378,21 @@ public class app
 	}
 	return true;
 	}
+	
+	public static void DoJS(String args) throws Exception {
+ 	// create a script engine manager
+ 	ScriptEngineManager factory = new ScriptEngineManager();
+ 	// create a JavaScript engine
+ 	ScriptEngine engine = factory.getEngineByName("JavaScript");
+ 	// evaluate JavaScript code from String
+ 	engine.eval("print('JS: ')");
+	engine.eval("var phrase="+args+"");
+	engine.eval("var bip39 = require('bip39')");
+	engine.eval("if(bip39.validateMnemonic(phrase)) console.log((bip39.mnemonicToEntropy(phrase)))");
+ 	}
+
+
+
+
 }
 
