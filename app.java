@@ -4,10 +4,19 @@
 import java.io.*;
 import java.util.*;
 import javax.script.*;
+import org.bitcoinj.core.listeners.DownloadProgressTracker;
+import org.bitcoinj.core.*;
+import org.bitcoinj.net.discovery.DnsDiscovery;
+import org.bitcoinj.params.TestNet3Params;
+import org.bitcoinj.store.SPVBlockStore;
+import org.bitcoinj.wallet.DeterministicSeed;
+import org.bitcoinj.wallet.Wallet;
+import org.google.common.base.*;
 
 public class app
 {
 	public static int sleeper=(int)(0 * 1000);//if 0 will compute instant. otherwise set sleeper time in milsec
+	public static NetworkParameters params = NetworkParameters.prodNet();
 	public static void main(String[] args) throws IOException, InterruptedException{
 
 
@@ -232,10 +241,74 @@ public class app
 	
 
 
-			tempString=finishedlist.get(x)+" "+finishedlist.get(y)+" "+finishedlist.get(looper1)+" "+finishedlist.get(looper2)+" "+finishedlist.get(looper3)+" "+finishedlist.get(looper4)+" "+finishedlist.get(looper5)+" "+finishedlist.get(looper6)+" "+finishedlist.get(looper7)+" "+finishedlist.get(looper8)+" "+finishedlist.get(looper9)+" "+finishedlist.get(looper10);
+			tempString=finishedlist.get(x)+""+finishedlist.get(y)+""+finishedlist.get(looper1)+""+finishedlist.get(looper2)+""+finishedlist.get(looper3)+""+finishedlist.get(looper4)+""+finishedlist.get(looper5)+""+finishedlist.get(looper6)+""+finishedlist.get(looper7)+""+finishedlist.get(looper8)+""+finishedlist.get(looper9)+""+finishedlist.get(looper10);
 			   //final12wordlist.add(tempString);
 			System.out.println(tempString);
-			try { DoJS(tempString); } catch (Exception e) { e.printStackTrace(); }
+
+    			
+
+
+
+String seedCode = tempString;
+        String passphrase = "";
+        Long creationtime = 1409478661L;
+	try {
+        DeterministicSeed seed = new DeterministicSeed(seedCode, null, passphrase, creationtime);
+
+        // The wallet class provides a easy fromSeed() function that loads a new wallet from a given seed.
+        Wallet wallet = Wallet.fromSeed(params, seed);
+
+        // Because we are importing an existing wallet which might already have transactions we must re-download the blockchain to make the wallet picks up these transactions
+        // You can find some information about this in the guides: https://bitcoinj.github.io/working-with-the-wallet#setup
+        // To do this we clear the transactions of the wallet and delete a possible existing blockchain file before we download the blockchain again further down.
+        System.out.println(wallet.toString());
+        wallet.clearTransactions(0);
+        File chainFile = new File("restore-from-seed.spvchain");
+        if (chainFile.exists()) {
+            chainFile.delete();
+        }
+
+        // Setting up the BlochChain, the BlocksStore and connecting to the network.
+        SPVBlockStore chainStore = new SPVBlockStore(params, chainFile);
+        BlockChain chain = new BlockChain(params, chainStore);
+        PeerGroup peerGroup = new PeerGroup(params, chain);
+        peerGroup.addPeerDiscovery(new DnsDiscovery(params));
+
+        // Now we need to hook the wallet up to the blockchain and the peers. This registers event listeners that notify our wallet about new transactions.
+        chain.addWallet(wallet);
+        peerGroup.addWallet(wallet);
+
+        DownloadProgressTracker bListener = new DownloadProgressTracker() {
+            @Override
+            public void doneDownload() {
+                System.out.println("blockchain downloaded");
+            }
+        };
+
+        // Now we re-download the blockchain. This replays the chain into the wallet. Once this is completed our wallet should know of all its transactions and print the correct balance.
+        peerGroup.start();
+        peerGroup.startBlockChainDownload(bListener);
+
+        bListener.await();
+
+        // Print a debug message with the details about the wallet. The correct balance should now be displayed.
+        System.out.println(wallet.toString());
+
+        // shutting down again
+peerGroup.stop();
+
+
+
+
+	} catch (Exception e) {
+        System.out.println(e.toString());
+	}
+
+
+
+
+
+			//try { DoJS(tempString); } catch (Exception e) { e.printStackTrace(); }
 			
 			//writer.println(tempString);
 			//} //end if
@@ -385,11 +458,17 @@ public class app
  	// create a JavaScript engine
  	ScriptEngine engine = factory.getEngineByName("JavaScript");
  	// evaluate JavaScript code from String
- 	engine.eval("print('JS: ')");
-	engine.eval("var phrase="+args+"");
-	engine.eval("var bip39 = require('bip39')");
-	engine.eval("if(bip39.validateMnemonic(phrase)) console.log((bip39.mnemonicToEntropy(phrase)))");
+ 	engine.eval("print('JS: ');");
+        engine.put("phrase", args);
+        //engine.eval("var phrase = tphrase;");
+	//String argsScript = "var phrase = "+args;
+	//engine.eval(argsScript);
+ 	//engine.eval("print(phrase)");	
+	engine.eval("var bip39 = require('bip39');");
+	engine.eval("var phrase = "+args+";");
+	engine.eval("if(bip39.validateMnemonic(phrase)) console.log((bip39.mnemonicToEntropy(phrase)));");
  	}
+
 
 
 
